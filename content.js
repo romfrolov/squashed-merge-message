@@ -49,16 +49,13 @@ async function copyPrDescription() {
     return;
   };
 
-  const commitTitle = `${prMetadata.title} (#${prNumber})`;
+  const commitTitle = `(#${prNumber}) ${prMetadata.title}`;
 
   // Remove leading HTML comments
   let commitBody = prMetadata.body.replace(/^<!--.*?-->\n*/gs, '').trim();
 
-  // Preserve and de-duplicate co-authors
-  const coauthors = new Set(messageFields[0].value.match(/Co-authored-by: .*/g));
-  if (coauthors.size > 0) {
-    commitBody += '\n\n' + [...coauthors].join('\n');
-  }
+  // Cut off at the first separation line.
+  commitBody = commitBody.split('---\n')[0];
 
   titleFields.forEach(f => f.value = commitTitle);
   messageFields.forEach(f => f.value = commitBody);

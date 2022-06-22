@@ -1,3 +1,8 @@
-// adds the "Enable Squashed Merge Message on this domain" menu item
-// so the user can enable the extension on custom Github Enterprise domains
-addDomainPermissionToggle();
+chrome.action.onClicked.addListener((tab) => {
+    chrome.scripting.executeScript({
+        target: {
+            tabId: tab.id,
+        },
+        files: ['content.js'],
+    });
+});
